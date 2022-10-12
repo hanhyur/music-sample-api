@@ -1,6 +1,6 @@
 package me.gracenam.musicsampleapi.domain.albums.entity;
 
-public class SoundTrack {
+public class Soundtrack {
 
     private Long trackId;
 

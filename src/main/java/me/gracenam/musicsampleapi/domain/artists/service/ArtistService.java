@@ -4,14 +4,15 @@ import lombok.RequiredArgsConstructor;
 import me.gracenam.musicsampleapi.domain.artists.dto.request.ArtistRequest;
 import me.gracenam.musicsampleapi.domain.artists.dto.response.ArtistResponse;
 import me.gracenam.musicsampleapi.domain.artists.entity.Artist;
+import me.gracenam.musicsampleapi.domain.artists.exception.ArtistNotFoundException;
 import me.gracenam.musicsampleapi.domain.artists.mapper.ArtistMapper;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -21,24 +22,14 @@ public class ArtistService {
 
     private final ArtistMapper artistMapper;
 
+    private final ModelMapper modelMapper;
+
     public ArtistResponse findArtistById(Long id) {
-        Optional<Artist> artist = artistMapper.findById(id);
+        Artist findArtist = artistMapper.findById(id).orElseThrow();
 
-        if (artist.isPresent()) {
-            ArtistResponse artistResponse = ArtistResponse.builder()
-                    .artistId(artist.get().getArtistId())
-                    .artistName(artist.get().getArtistName())
-                    .birth(artist.get().getBirth())
-                    .agency(artist.get().getAgency())
-                    .nationality(artist.get().getNationality())
-                    .introduction(artist.get().getIntroduction())
-                    .registeredDate(artist.get().getRegisteredDate())
-                    .build();
+        ArtistResponse artistResponse = ArtistResponse.builder().build();
 
-            return artistResponse;
-        } else {
-            return null;
-        }
+        return artistResponse;
     }
 
     public List<ArtistResponse> findAllArtist(Pageable pageable) {
@@ -48,8 +39,8 @@ public class ArtistService {
 
         for (Artist artist : artistList) {
             ArtistResponse artistResponse = ArtistResponse.builder()
-                    .artistId(artist.getArtistId())
-                    .artistName(artist.getArtistName())
+                    .id(artist.getId())
+                    .name(artist.getName())
                     .birth(artist.getBirth())
                     .agency(artist.getAgency())
                     .nationality(artist.getNationality())
@@ -64,12 +55,26 @@ public class ArtistService {
     }
 
     @Transactional
-    public Artist saveArtistData(ArtistRequest dto) {
-        Long id = artistMapper.save(dto);
+    public ArtistResponse saveArtistData(ArtistRequest dto) {
+        Artist artist = modelMapper.map(dto, Artist.class);
 
-        Optional<Artist> artist = artistMapper.findById(id);
+        System.out.println("artist = " + artist);
 
-        return artist.orElse(null);
+        Long id = artistMapper.save(artist);
+
+        Artist result = artistMapper.findById(id).orElse(null);
+
+        ArtistResponse artistResponse = ArtistResponse.builder()
+                .id(result.getId())
+                .name(result.getName())
+                .birth(result.getBirth())
+                .agency(result.getAgency())
+                .nationality(result.getNationality())
+                .introduction(result.getIntroduction())
+                .registeredDate(result.getRegisteredDate())
+                .build();
+
+        return artistResponse;
     }
 
     public List<ArtistResponse> searchArtistByName(Pageable pageable, String name) {
@@ -79,8 +84,8 @@ public class ArtistService {
 
         for (Artist artist : artistList) {
             ArtistResponse artistResponse = ArtistResponse.builder()
-                    .artistId(artist.getArtistId())
-                    .artistName(artist.getArtistName())
+                    .id(artist.getId())
+                    .name(artist.getName())
                     .birth(artist.getBirth())
                     .agency(artist.getAgency())
                     .nationality(artist.getNationality())
@@ -92,6 +97,29 @@ public class ArtistService {
         }
 
         return searchResponseList;
+    }
+
+    @Transactional
+    public ArtistResponse updateArtistInfo(Long id, ArtistRequest dto) {
+        artistMapper.update(id, dto);
+
+        Optional<Artist> result = artistMapper.findById(id);
+
+        if (result.isPresent()) {
+            ArtistResponse artistResponse = ArtistResponse.builder()
+                    .id(result.get().getId())
+                    .name(result.get().getName())
+                    .birth(result.get().getBirth())
+                    .agency(result.get().getAgency())
+                    .nationality(result.get().getNationality())
+                    .introduction(result.get().getIntroduction())
+                    .registeredDate(result.get().getRegisteredDate())
+                    .build();
+
+            return artistResponse;
+        } else {
+            return null;
+        }
     }
 
 }

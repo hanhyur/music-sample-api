@@ -27,7 +27,7 @@ public class ArtistController {
     }
     
     @PostMapping
-    public ResponseEntity saveArtist(ArtistRequest dto) {
+    public ResponseEntity saveArtist(@RequestBody ArtistRequest dto) {
         return ResponseEntity.ok(artistService.saveArtistData(dto));
     }
 
@@ -38,5 +38,10 @@ public class ArtistController {
         return ResponseEntity.ok(artistService.searchArtistByName(pageable, word));
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity updateArtistInfo(@PathVariable Long id,
+                                           @RequestParam ArtistRequest dto) {
+        return ResponseEntity.ok(artistService.updateArtistInfo(id, dto));
+    }
 
 }

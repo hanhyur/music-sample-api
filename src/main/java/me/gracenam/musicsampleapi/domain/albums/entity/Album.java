@@ -21,7 +21,7 @@ public class Album {
 
     private String description;
 
-    private List<SoundTrack> soundTracks;
+    private List<Soundtrack> soundtracks;
 
     private LocalDateTime registeredDate;
 

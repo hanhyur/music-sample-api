@@ -15,8 +15,10 @@ public interface ArtistMapper {
 
     List<Artist> findAll();
 
-    Long save(@Param("dto") ArtistRequest dto);
+    Long save(Artist artist);
 
     List<Artist> search(String name);
+
+    int update(@Param("id") Long id, @Param("dto") ArtistRequest dto);
 
 }
