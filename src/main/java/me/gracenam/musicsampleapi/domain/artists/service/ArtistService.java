@@ -1,13 +1,18 @@
 package me.gracenam.musicsampleapi.domain.artists.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
+import me.gracenam.musicsampleapi.domain.artists.controller.ArtistSearchParam;
 import me.gracenam.musicsampleapi.domain.artists.dto.request.ArtistRequest;
 import me.gracenam.musicsampleapi.domain.artists.dto.response.ArtistResponse;
 import me.gracenam.musicsampleapi.domain.artists.entity.Artist;
 import me.gracenam.musicsampleapi.domain.artists.exception.ArtistNotFoundException;
 import me.gracenam.musicsampleapi.domain.artists.mapper.ArtistMapper;
+import me.gracenam.musicsampleapi.global.commons.PageResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,44 +30,42 @@ public class ArtistService {
     private final ModelMapper modelMapper;
 
     public ArtistResponse findArtistById(Long id) {
-        Artist findArtist = artistMapper.findById(id).orElseThrow();
+        Artist findArtist = artistMapper.findById(id)
+                .orElseThrow(() -> new ArtistNotFoundException(Long.toString(id)));
 
-        ArtistResponse artistResponse = ArtistResponse.builder().build();
+        ArtistResponse artistResponse = ArtistResponse.builder()
+                .id(findArtist.getId())
+                .name(findArtist.getName())
+                .birth(findArtist.getBirth())
+                .agency(findArtist.getAgency())
+                .nationality(findArtist.getNationality())
+                .introduction(findArtist.getIntroduction())
+                .registeredDate(findArtist.getRegisteredDate())
+                .build();
 
         return artistResponse;
     }
 
-    public List<ArtistResponse> findAllArtist(Pageable pageable) {
-        List<Artist> artistList = artistMapper.findAll();
+    public PageResponse<ArtistResponse> findAllArtist(ArtistSearchParam param) {
+        param.searchParamValidate();
 
-        List<ArtistResponse> artistResponseList = new ArrayList<>();
+        PageHelper.startPage(param.getPageNum(), param.getPageSize());
+        PageInfo<ArtistResponse> pageInfo = PageInfo.of(artistMapper.findAll(param));
 
-        for (Artist artist : artistList) {
-            ArtistResponse artistResponse = ArtistResponse.builder()
-                    .id(artist.getId())
-                    .name(artist.getName())
-                    .birth(artist.getBirth())
-                    .agency(artist.getAgency())
-                    .nationality(artist.getNationality())
-                    .introduction(artist.getIntroduction())
-                    .registeredDate(artist.getRegisteredDate())
-                    .build();
-
-            artistResponseList.add(artistResponse);
-        }
-
-        return artistResponseList;
+        return PageResponse.<ArtistResponse>builder()
+                .param(param)
+                .page(pageInfo)
+                .build();
     }
 
     @Transactional
     public ArtistResponse saveArtistData(ArtistRequest dto) {
         Artist artist = modelMapper.map(dto, Artist.class);
 
-        System.out.println("artist = " + artist);
-
         Long id = artistMapper.save(artist);
 
-        Artist result = artistMapper.findById(id).orElse(null);
+        Artist result = artistMapper.findById(id)
+                .orElseThrow(() -> new ArtistNotFoundException(Long.toString(id)));
 
         ArtistResponse artistResponse = ArtistResponse.builder()
                 .id(result.getId())
@@ -103,23 +106,26 @@ public class ArtistService {
     public ArtistResponse updateArtistInfo(Long id, ArtistRequest dto) {
         artistMapper.update(id, dto);
 
-        Optional<Artist> result = artistMapper.findById(id);
+        Artist result = artistMapper.findById(id)
+                .orElseThrow(() -> new ArtistNotFoundException(Long.toString(id)));
 
-        if (result.isPresent()) {
-            ArtistResponse artistResponse = ArtistResponse.builder()
-                    .id(result.get().getId())
-                    .name(result.get().getName())
-                    .birth(result.get().getBirth())
-                    .agency(result.get().getAgency())
-                    .nationality(result.get().getNationality())
-                    .introduction(result.get().getIntroduction())
-                    .registeredDate(result.get().getRegisteredDate())
-                    .build();
+        ArtistResponse artistResponse = ArtistResponse.builder()
+                .id(result.getId())
+                .name(result.getName())
+                .birth(result.getBirth())
+                .agency(result.getAgency())
+                .nationality(result.getNationality())
+                .introduction(result.getIntroduction())
+                .registeredDate(result.getRegisteredDate())
+                .build();
 
-            return artistResponse;
-        } else {
-            return null;
-        }
+        return artistResponse;
     }
 
+    @Transactional
+    public void deleteArtistInfo(Long id) {
+        findArtistById(id);
+
+        artistMapper.delete(id);
+    }
 }

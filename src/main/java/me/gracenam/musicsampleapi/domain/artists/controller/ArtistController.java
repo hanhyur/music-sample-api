@@ -2,11 +2,17 @@ package me.gracenam.musicsampleapi.domain.artists.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.gracenam.musicsampleapi.domain.artists.dto.request.ArtistRequest;
+import me.gracenam.musicsampleapi.domain.artists.dto.response.ArtistResponse;
+import me.gracenam.musicsampleapi.domain.artists.exception.ArtistValidationException;
 import me.gracenam.musicsampleapi.domain.artists.service.ArtistService;
+import me.gracenam.musicsampleapi.global.commons.PageResponse;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
 @RestController
@@ -17,8 +23,10 @@ public class ArtistController {
     private final ArtistService artistService;
 
     @GetMapping
-    public ResponseEntity getArtists(Pageable pageable) {
-        return ResponseEntity.ok(artistService.findAllArtist(pageable));
+    public ResponseEntity getArtists(ArtistSearchParam pageable) {
+        PageResponse<ArtistResponse> result = artistService.findAllArtist(pageable);
+
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/{id}")
@@ -27,7 +35,12 @@ public class ArtistController {
     }
     
     @PostMapping
-    public ResponseEntity saveArtist(@RequestBody ArtistRequest dto) {
+    public ResponseEntity saveArtist(@RequestBody @Valid ArtistRequest dto,
+                                     BindingResult result) {
+        if (result.hasErrors()) {
+            throw new ArtistValidationException(result);
+        }
+
         return ResponseEntity.ok(artistService.saveArtistData(dto));
     }
 
@@ -40,8 +53,20 @@ public class ArtistController {
 
     @PatchMapping("/{id}")
     public ResponseEntity updateArtistInfo(@PathVariable Long id,
-                                           @RequestParam ArtistRequest dto) {
+                                           @RequestBody @Valid ArtistRequest dto,
+                                           BindingResult result) {
+        if (result.hasErrors()) {
+            throw new ArtistValidationException(result);
+        }
+
         return ResponseEntity.ok(artistService.updateArtistInfo(id, dto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteArtistInfo(@PathVariable Long id) {
+        artistService.deleteArtistInfo(id);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 }

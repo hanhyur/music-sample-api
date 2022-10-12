@@ -3,8 +3,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="me.gracenam.musicsampleapi.domain.artists.mapper.ArtistMapper">
 
-    <select id="findAll" resultType="Artist">
+    <select id="findAll" resultType="ArtistResponse">
         select * from artist
+        order by registered_date desc
     </select>
 
     <select id="findById" resultType="Artist">
@@ -36,7 +37,7 @@
     <update id="update">
         update artist
         set
-            name = #{dto.artistName},
+            name = #{dto.name},
             birth = #{dto.birth},
             agency = #{dto.agency},
             nationality = #{dto.nationality},
@@ -44,4 +45,8 @@
         where id = #{id}
     </update>
 
+    <delete id="delete">
+        delete from artist
+        where id = #{id}
+    </delete>
 </mapper>
