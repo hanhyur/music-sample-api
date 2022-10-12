@@ -1,19 +1,24 @@
 package me.gracenam.musicsampleapi.domain.albums.entity;
 
-import lombok.Getter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
+@Setter
+@Builder
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class Album {
 
-    private Long albumId;
+    private Long id;
 
     private String artistName;
 
-    private String albumTitle;
+    private String title;
 
     private LocalDate releaseDate;
 

@@ -1,4 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="me.gracenam.musicsampleapi.domain.artists.mapper.AlbumMapper">
+
+    <select id="findAll" resultType="AlbumResponse">
+        select * from album
+        order by registered_date desc
+    </select>
+
+    <select id="findById" resultType="Album">
+        select * from artist where id = #{id}
+    </select>
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert
+        into album
+        (artist_name,
+         title,
+         release_date,
+         genre,
+         description,
+         introduction,
+         registered_date)
+        values
+            (#{artistName},
+             #{birth},
+             #{agency},
+             #{nationality},
+             #{introduction},
+             now())
+    </insert>
+
+    <select id="search" resultType="Artist">
+        select * from artist where name like concat('%', #{name}, '%')
+    </select>
+
+    <update id="update">
+        update artist
+        set
+            name = #{dto.name},
+            birth = #{dto.birth},
+            agency = #{dto.agency},
+            nationality = #{dto.nationality},
+            introduction = #{dto.introduction}
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from artist
+        where id = #{id}
+    </delete>
+
 </mapper>

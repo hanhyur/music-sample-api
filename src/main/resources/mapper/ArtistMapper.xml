@@ -49,4 +49,5 @@
         delete from artist
         where id = #{id}
     </delete>
+
 </mapper>
