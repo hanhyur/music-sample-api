@@ -16,16 +16,16 @@ import java.time.LocalDate;
 @ToString
 public class ArtistRequest {
 
-    @NotBlank(message = "아티스트 명을 입력해주세요.")
+    @NotBlank(message = "아티스트 명을 입력해주세요")
     private String name;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @NotNull(message = "생년월일을 입력해주세요.")
+    @NotNull(message = "생년월일을 입력해주세요")
     private LocalDate birth;
 
     private String agency;
 
-    @NotNull(message = "국적을 입력해주세요.")
+    @NotNull(message = "국적을 입력해주세요")
     private String nationality;
 
     private String introduction;

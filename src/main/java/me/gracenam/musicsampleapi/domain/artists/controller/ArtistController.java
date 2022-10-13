@@ -3,17 +3,16 @@ package me.gracenam.musicsampleapi.domain.artists.controller;
 import lombok.RequiredArgsConstructor;
 import me.gracenam.musicsampleapi.domain.artists.dto.request.ArtistRequest;
 import me.gracenam.musicsampleapi.domain.artists.dto.response.ArtistResponse;
+import me.gracenam.musicsampleapi.domain.artists.dto.response.ArtistSearchParam;
 import me.gracenam.musicsampleapi.domain.artists.exception.ArtistValidationException;
 import me.gracenam.musicsampleapi.domain.artists.service.ArtistService;
 import me.gracenam.musicsampleapi.global.commons.PageResponse;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 
 @RestController
 @RequiredArgsConstructor
@@ -42,13 +41,6 @@ public class ArtistController {
         }
 
         return ResponseEntity.ok(artistService.saveArtistData(dto));
-    }
-
-    @GetMapping("/search")
-    public ResponseEntity searchArtist(Pageable pageable,
-                                 @RequestParam @NotBlank(message = "검색할 내용을 입력해주세요")
-                                 String word) {
-        return ResponseEntity.ok(artistService.searchArtistByName(pageable, word));
     }
 
     @PatchMapping("/{id}")

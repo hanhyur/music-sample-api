@@ -5,6 +5,11 @@
 
     <select id="findAll" resultType="ArtistResponse">
         select * from artist
+        <where>
+            <if test="keyword != null and keyword != '' ">
+                and name like concat('%', #{keyword}, '%')
+            </if>
+        </where>
         order by registered_date desc
     </select>
 
@@ -29,10 +34,6 @@
              #{introduction},
              now())
     </insert>
-
-    <select id="search" resultType="Artist">
-        select * from artist where name like concat('%', #{name}, '%')
-    </select>
 
     <update id="update">
         update artist

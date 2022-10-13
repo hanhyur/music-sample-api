@@ -19,8 +19,6 @@ public interface ArtistMapper {
 
     Long save(Artist artist);
 
-    List<Artist> search(String name);
-
     int update(@Param("id") Long id, @Param("dto") ArtistRequest dto);
 
     void delete(Long id);

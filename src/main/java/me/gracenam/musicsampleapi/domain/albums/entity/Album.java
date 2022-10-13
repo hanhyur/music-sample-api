@@ -1,6 +1,7 @@
 package me.gracenam.musicsampleapi.domain.albums.entity;
 
 import lombok.*;
+import me.gracenam.musicsampleapi.domain.soundtrack.entity.Soundtrack;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

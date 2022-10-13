@@ -1,4 +1,4 @@
-package me.gracenam.musicsampleapi.domain.artists.controller;
+package me.gracenam.musicsampleapi.domain.albums.dto.response;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +8,6 @@ import me.gracenam.musicsampleapi.global.commons.SearchParam;
 @Getter
 @Setter
 @ToString
-public class ArtistSearchParam extends SearchParam {
+public class AlbumSearchParam extends SearchParam {
 
 }

@@ -22,8 +22,6 @@ public interface AlbumMapper {
 
     Long save(Album album);
 
-    List<Album> search(String name);
-
     int update(@Param("id") Long id, @Param("dto") AlbumRequest dto);
 
     void delete(Long id);

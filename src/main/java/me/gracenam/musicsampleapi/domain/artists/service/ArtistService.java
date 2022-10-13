@@ -3,7 +3,7 @@ package me.gracenam.musicsampleapi.domain.artists.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
-import me.gracenam.musicsampleapi.domain.artists.controller.ArtistSearchParam;
+import me.gracenam.musicsampleapi.domain.artists.dto.response.ArtistSearchParam;
 import me.gracenam.musicsampleapi.domain.artists.dto.request.ArtistRequest;
 import me.gracenam.musicsampleapi.domain.artists.dto.response.ArtistResponse;
 import me.gracenam.musicsampleapi.domain.artists.entity.Artist;
@@ -12,13 +12,11 @@ import me.gracenam.musicsampleapi.domain.artists.mapper.ArtistMapper;
 import me.gracenam.musicsampleapi.global.commons.PageResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -78,28 +76,6 @@ public class ArtistService {
                 .build();
 
         return artistResponse;
-    }
-
-    public List<ArtistResponse> searchArtistByName(Pageable pageable, String name) {
-        List<Artist> artistList = artistMapper.search(name);
-
-        List<ArtistResponse> searchResponseList = new ArrayList<>();
-
-        for (Artist artist : artistList) {
-            ArtistResponse artistResponse = ArtistResponse.builder()
-                    .id(artist.getId())
-                    .name(artist.getName())
-                    .birth(artist.getBirth())
-                    .agency(artist.getAgency())
-                    .nationality(artist.getNationality())
-                    .introduction(artist.getIntroduction())
-                    .registeredDate(artist.getRegisteredDate())
-                    .build();
-
-            searchResponseList.add(artistResponse);
-        }
-
-        return searchResponseList;
     }
 
     @Transactional

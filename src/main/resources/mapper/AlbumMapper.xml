@@ -4,11 +4,16 @@
 
     <select id="findAll" resultType="AlbumResponse">
         select * from album
+        <where>
+            <if test="keyword != null and keyword != '' ">
+                and name like concat('%', #{keyword}, '%')
+            </if>
+        </where>
         order by registered_date desc
     </select>
 
     <select id="findById" resultType="Album">
-        select * from artist where id = #{id}
+        select * from album where id = #{id}
     </select>
 
     <insert id="save" useGeneratedKeys="true" keyProperty="id">
