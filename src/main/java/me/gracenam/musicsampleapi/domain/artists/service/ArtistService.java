@@ -11,6 +11,7 @@ import me.gracenam.musicsampleapi.domain.artists.exception.ArtistNotFoundExcepti
 import me.gracenam.musicsampleapi.domain.artists.mapper.ArtistMapper;
 import me.gracenam.musicsampleapi.global.commons.PageResponse;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.config.Configuration;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

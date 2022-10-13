@@ -1,6 +1,7 @@
 package me.gracenam.musicsampleapi.domain.albums.entity;
 
 import lombok.*;
+import me.gracenam.musicsampleapi.domain.soundtrack.dto.response.SoundtrackResponse;
 import me.gracenam.musicsampleapi.domain.soundtrack.entity.Soundtrack;
 
 import java.time.LocalDate;
@@ -8,7 +9,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
-@Setter
 @Builder
 @ToString
 @NoArgsConstructor
@@ -27,7 +27,7 @@ public class Album {
 
     private String description;
 
-    private List<Soundtrack> soundtracks;
+    private List<Soundtrack> soundtrackList;
 
     private LocalDateTime registeredDate;
 

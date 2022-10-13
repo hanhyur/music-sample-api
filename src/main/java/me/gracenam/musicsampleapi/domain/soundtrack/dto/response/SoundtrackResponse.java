@@ -1,13 +1,14 @@
-package me.gracenam.musicsampleapi.domain.soundtrack.entity;
+package me.gracenam.musicsampleapi.domain.soundtrack.dto.response;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Builder
 @ToString
-@NoArgsConstructor
-@AllArgsConstructor
-public class Soundtrack {
+public class SoundtrackResponse {
 
     private Long id;
 

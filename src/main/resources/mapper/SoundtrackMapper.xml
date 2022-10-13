@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.gracenam.musicsampleapi.domain.soundtrack.mapper.SoundtrackMapper">
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List">
+        insert
+        into soundtrack
+        (orders,
+         title,
+         play_time,
+         exposure,
+         album_id)
+        values
+            <foreach collection="list" item="item" separator=",">
+                (#{item.orders},
+                #{item.title},
+                #{item.playTime},
+                #{item.exposure},
+                #{item.albumId}
+            </foreach>
+    </insert>
+
+    <select id="findByAlbumId" resultType="SoundtrackResponse">
+        select * from soundtrack
+        where album_id = #{id}
+        order by orders asc
+    </select>
+
+    <delete id="delete">
+        <foreach collection="list" item="item" separator=";">
+            delete from soundtrack
+            where id = #{item.id}
+        </foreach>
+    </delete>
+
+</mapper>
