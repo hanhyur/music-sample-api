@@ -10,9 +10,6 @@ import me.gracenam.musicsampleapi.domain.albums.dto.response.AlbumSearchParam;
 import me.gracenam.musicsampleapi.domain.albums.entity.Album;
 import me.gracenam.musicsampleapi.domain.albums.exception.AlbumNotFoundException;
 import me.gracenam.musicsampleapi.domain.albums.mapper.AlbumMapper;
-import me.gracenam.musicsampleapi.domain.artists.dto.response.ArtistResponse;
-import me.gracenam.musicsampleapi.domain.artists.entity.Artist;
-import me.gracenam.musicsampleapi.domain.artists.exception.ArtistNotFoundException;
 import me.gracenam.musicsampleapi.global.commons.PageResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -76,6 +73,13 @@ public class AlbumService {
                 .build();
 
         return albumResponse;
+    }
+
+    @Transactional
+    public void deleteAlbum(Long id) {
+        findAlbumById(id);
+
+        albumMapper.delete(id);
     }
 
 }

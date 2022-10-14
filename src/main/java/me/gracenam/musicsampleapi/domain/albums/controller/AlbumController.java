@@ -6,6 +6,7 @@ import me.gracenam.musicsampleapi.domain.albums.dto.response.AlbumResponse;
 import me.gracenam.musicsampleapi.domain.albums.dto.response.AlbumSearchParam;
 import me.gracenam.musicsampleapi.domain.albums.exception.AlbumValidationException;
 import me.gracenam.musicsampleapi.domain.albums.service.AlbumService;
+import me.gracenam.musicsampleapi.domain.artists.exception.ArtistValidationException;
 import me.gracenam.musicsampleapi.domain.soundtrack.dto.request.SoundtrackRequest;
 import me.gracenam.musicsampleapi.global.Adapter.AlbumSoundtrackAdapter;
 import me.gracenam.musicsampleapi.global.commons.PageResponse;
@@ -46,6 +47,18 @@ public class AlbumController {
         }
 
         return ResponseEntity.ok(albumSoundtrackAdapter.saveInfo(albumReq, soundtrackReq));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity updateAlbum(@PathVariable Long id,
+                                      @RequestBody @Valid AlbumRequest albumReq,
+                                      @RequestBody @Valid List<SoundtrackRequest> soundtrackReq,
+                                      BindingResult result) {
+        if (result.hasErrors()) {
+            throw new AlbumValidationException(result);
+        }
+
+        return ResponseEntity.ok(albumSoundtrackAdapter.updateAlbumInfo(id, albumReq, soundtrackReq));
     }
 
 }

@@ -5,6 +5,7 @@ import me.gracenam.musicsampleapi.domain.albums.dto.response.AlbumDetailResponse
 import me.gracenam.musicsampleapi.domain.albums.dto.response.AlbumResponse;
 import me.gracenam.musicsampleapi.domain.albums.service.AlbumService;
 import me.gracenam.musicsampleapi.domain.soundtrack.dto.request.SoundtrackRequest;
+import me.gracenam.musicsampleapi.domain.soundtrack.dto.response.SoundtrackResponse;
 import me.gracenam.musicsampleapi.domain.soundtrack.service.SoundtrackService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -35,5 +36,22 @@ public class AlbumSoundtrackAdapter {
         albumDetailResponse.setSoundtrackList(soundtrackService.findSoundtracksByAlbumId(id));
 
         return albumDetailResponse;
+    }
+
+/*    public AlbumDetailResponse updateAlbumInfo(Long id,
+                                               AlbumRequest albumReq,
+                                               List<SoundtrackRequest> soundtrackReq) {
+        AlbumDetailResponse albumDetailResponse = albumService.updateAlbum(albumReq);
+        albumDetailResponse.setSoundtrackList(soundtrackService.updateSoundtrack(id, soundtrackReq));
+
+        return albumDetailResponse;
+    }*/
+
+    public void deleteAlbumInfo(Long id) {
+        List<SoundtrackResponse> deleteList = soundtrackService.findSoundtracksByAlbumId(id);
+
+        soundtrackService.deleteSoundtrack(id);
+
+        albumService.deleteAlbum(id);
     }
 }

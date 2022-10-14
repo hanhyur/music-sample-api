@@ -29,9 +29,10 @@ public class SoundtrackService {
         List<Soundtrack> soundtracks = new ArrayList<>();
 
         for (SoundtrackRequest request : dto) {
-            Soundtrack soundtrack = modelMapper.map(request, Soundtrack.class);
-            soundtrack.setId(albumId);
+            SoundtrackResponse soundtrackRes = modelMapper.map(request, SoundtrackResponse.class);
+            soundtrackRes.setId(albumId);
 
+            Soundtrack soundtrack = modelMapper.map(soundtrackRes, Soundtrack.class);
             soundtracks.add(soundtrack);
         }
 
@@ -55,18 +56,23 @@ public class SoundtrackService {
     }
 
     public List<SoundtrackResponse> findSoundtracksByAlbumId(Long albumId) {
+        return soundtrackMapper.findByAlbumId(albumId);
+    }
+
+    public List<SoundtrackResponse> updateSoundtrack(Long albumId, List<SoundtrackRequest> soundtrackRequests) {
         List<SoundtrackResponse> list = soundtrackMapper.findByAlbumId(albumId);
+        deleteSoundtrack(albumId);
+
+//        List<SoundtrackResponse> insertList =
 
         return list;
     }
 
     @Transactional
-    public void deleteSoundtrack(List<Soundtrack> soundtracks) {
-        for (Soundtrack soundtrack : soundtracks) {
-            findSoundtrackById(soundtrack.getId());
-        }
+    public void deleteSoundtrack(Long id) {
+        List<SoundtrackResponse> deleteLists = findSoundtracksByAlbumId(id);
 
-        soundtrackMapper.delete(soundtracks);
+        soundtrackMapper.delete(deleteLists);
     }
 
 }

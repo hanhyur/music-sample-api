@@ -13,10 +13,10 @@ public interface SoundtrackMapper {
 
     Optional<Soundtrack> findById(Long id);
 
-    int save(List<Soundtrack> soundtracks);
-
     List<SoundtrackResponse> findByAlbumId(Long id);
 
-    void delete(List<Soundtrack> soundtracks);
+    int save(List<Soundtrack> soundtracks);
+
+    void delete(List<SoundtrackResponse> deleteLists);
 
 }
