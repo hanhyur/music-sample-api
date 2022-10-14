@@ -10,6 +10,7 @@ import me.gracenam.musicsampleapi.domain.soundtrack.dto.request.SoundtrackReques
 import me.gracenam.musicsampleapi.domain.soundtrack.dto.request.SoundtrackUpdateRequest;
 import me.gracenam.musicsampleapi.global.Adapter.AlbumSoundtrackAdapter;
 import me.gracenam.musicsampleapi.global.commons.PageResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -59,6 +60,13 @@ public class AlbumController {
         }
 
         return ResponseEntity.ok(albumSoundtrackAdapter.updateAlbumInfo(id, albumReq, soundtrackReq));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteAlbum(@PathVariable Long id) {
+        albumSoundtrackAdapter.deleteAlbumInfo(id);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 }

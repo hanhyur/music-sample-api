@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -60,13 +62,41 @@ public class SoundtrackService {
         return soundtrackMapper.findByAlbumId(albumId);
     }
 
+    @Transactional
     public List<SoundtrackResponse> updateSoundtrack(Long albumId, List<SoundtrackUpdateRequest> req) {
+        List<SoundtrackResponse> chkList = findSoundtracksByAlbumId(albumId);
 
+        List<SoundtrackResponse> deleteList = chkList.stream()
+                .filter(e -> req.stream().noneMatch(Predicate.isEqual(e)))
+                .collect(Collectors.toList());
+        soundtrackMapper.delete(deleteList);
 
+        insertNewTrackStream(req);
+        updateTrackStream(req);
 
-//        List<SoundtrackResponse> insertList =
+        return findSoundtracksByAlbumId(albumId);
+    }
 
-        return list;
+    private void updateTrackStream(List<SoundtrackUpdateRequest> req) {
+        List<SoundtrackUpdateRequest> updateList = req.stream()
+                .filter(e -> req.stream().anyMatch(Predicate.isEqual(e)))
+                .collect(Collectors.toList());
+
+        soundtrackMapper.update(updateList);
+    }
+
+    private void insertNewTrackStream(List<SoundtrackUpdateRequest> req) {
+        List<SoundtrackUpdateRequest> insertReq = req.stream().filter(e -> e.getId() == null)
+                .collect(Collectors.toList());
+
+        List<Soundtrack> insertList = insertReq.stream()
+                .map(e -> {
+                    Soundtrack soundtrack = modelMapper.map(e, Soundtrack.class);
+                    return soundtrack;
+                })
+                .collect(Collectors.toList());
+
+        soundtrackMapper.save(insertList);
     }
 
     @Transactional

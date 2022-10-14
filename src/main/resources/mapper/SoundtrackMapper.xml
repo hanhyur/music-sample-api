@@ -33,4 +33,17 @@
         </foreach>
     </delete>
 
+    <update id="update">
+        <foreach collection="list" item="item" separator=";">
+            update soundtrack
+            set
+                orders = #{item.orders},
+                title = #{item.title},
+                play_time = #{item.playTime},
+                exposure = #{item.exposure},
+                album_id = #{item.albumId}
+            where id = #{item.id}
+        </foreach>
+    </update>
+
 </mapper>
