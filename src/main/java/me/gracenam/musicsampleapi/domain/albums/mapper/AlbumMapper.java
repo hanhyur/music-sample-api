@@ -22,7 +22,7 @@ public interface AlbumMapper {
 
     Long save(Album album);
 
-    int update(@Param("id") Long id, @Param("dto") AlbumRequest dto);
+    void update(@Param("id") Long id, @Param("dto") AlbumRequest dto);
 
     void delete(Long id);
 

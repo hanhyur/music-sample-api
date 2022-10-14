@@ -1,9 +1,11 @@
 package me.gracenam.musicsampleapi.domain.soundtrack.mapper;
 
+import me.gracenam.musicsampleapi.domain.albums.dto.request.AlbumRequest;
 import me.gracenam.musicsampleapi.domain.artists.entity.Artist;
 import me.gracenam.musicsampleapi.domain.soundtrack.dto.response.SoundtrackResponse;
 import me.gracenam.musicsampleapi.domain.soundtrack.entity.Soundtrack;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +18,8 @@ public interface SoundtrackMapper {
     List<SoundtrackResponse> findByAlbumId(Long id);
 
     int save(List<Soundtrack> soundtracks);
+
+    void update(@Param("id") Long id, @Param("dto") AlbumRequest dto);
 
     void delete(List<SoundtrackResponse> deleteLists);
 

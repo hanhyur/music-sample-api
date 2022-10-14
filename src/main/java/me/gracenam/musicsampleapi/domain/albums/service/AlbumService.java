@@ -82,4 +82,23 @@ public class AlbumService {
         albumMapper.delete(id);
     }
 
+    @Transactional
+    public AlbumDetailResponse updateAlbumInfo(Long id, AlbumRequest albumReq) {
+        albumMapper.update(id, albumReq);
+
+        Album album = albumMapper.findById(id)
+                .orElseThrow(() -> new AlbumNotFoundException(Long.toString(id)));
+
+        AlbumDetailResponse albumDetailResponse = AlbumDetailResponse.builder()
+                .id(album.getId())
+                .artistName(album.getArtistName())
+                .title(album.getTitle())
+                .releaseDate(album.getReleaseDate())
+                .genre(album.getGenre())
+                .description(album.getDescription())
+                .registeredDate(album.getRegisteredDate())
+                .build();
+
+        return albumDetailResponse;
+    }
 }

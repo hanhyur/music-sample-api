@@ -2,6 +2,7 @@ package me.gracenam.musicsampleapi.domain.soundtrack.service;
 
 import lombok.RequiredArgsConstructor;
 import me.gracenam.musicsampleapi.domain.soundtrack.dto.request.SoundtrackRequest;
+import me.gracenam.musicsampleapi.domain.soundtrack.dto.request.SoundtrackUpdateRequest;
 import me.gracenam.musicsampleapi.domain.soundtrack.dto.response.SoundtrackResponse;
 import me.gracenam.musicsampleapi.domain.soundtrack.entity.Soundtrack;
 import me.gracenam.musicsampleapi.domain.soundtrack.exception.SoundtrackNotFoundException;
@@ -59,9 +60,9 @@ public class SoundtrackService {
         return soundtrackMapper.findByAlbumId(albumId);
     }
 
-    public List<SoundtrackResponse> updateSoundtrack(Long albumId, List<SoundtrackRequest> soundtrackRequests) {
-        List<SoundtrackResponse> list = soundtrackMapper.findByAlbumId(albumId);
-        deleteSoundtrack(albumId);
+    public List<SoundtrackResponse> updateSoundtrack(Long albumId, List<SoundtrackUpdateRequest> req) {
+
+
 
 //        List<SoundtrackResponse> insertList =
 

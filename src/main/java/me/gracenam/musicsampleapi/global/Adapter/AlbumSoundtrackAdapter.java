@@ -5,12 +5,15 @@ import me.gracenam.musicsampleapi.domain.albums.dto.response.AlbumDetailResponse
 import me.gracenam.musicsampleapi.domain.albums.dto.response.AlbumResponse;
 import me.gracenam.musicsampleapi.domain.albums.service.AlbumService;
 import me.gracenam.musicsampleapi.domain.soundtrack.dto.request.SoundtrackRequest;
+import me.gracenam.musicsampleapi.domain.soundtrack.dto.request.SoundtrackUpdateRequest;
 import me.gracenam.musicsampleapi.domain.soundtrack.dto.response.SoundtrackResponse;
 import me.gracenam.musicsampleapi.domain.soundtrack.service.SoundtrackService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class AlbumSoundtrackAdapter {
 
     @Autowired
@@ -38,14 +41,14 @@ public class AlbumSoundtrackAdapter {
         return albumDetailResponse;
     }
 
-/*    public AlbumDetailResponse updateAlbumInfo(Long id,
+    public AlbumDetailResponse updateAlbumInfo(Long id,
                                                AlbumRequest albumReq,
-                                               List<SoundtrackRequest> soundtrackReq) {
-        AlbumDetailResponse albumDetailResponse = albumService.updateAlbum(albumReq);
-        albumDetailResponse.setSoundtrackList(soundtrackService.updateSoundtrack(id, soundtrackReq));
+                                               List<SoundtrackUpdateRequest> SoundtrackReq) {
+        AlbumDetailResponse albumDetailResponse = albumService.updateAlbumInfo(id, albumReq);
+        albumDetailResponse.setSoundtrackList(soundtrackService.updateSoundtrack(id, SoundtrackReq));
 
         return albumDetailResponse;
-    }*/
+    }
 
     public void deleteAlbumInfo(Long id) {
         List<SoundtrackResponse> deleteList = soundtrackService.findSoundtracksByAlbumId(id);
