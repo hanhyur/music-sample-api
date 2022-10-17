@@ -1,0 +1,3 @@
+TRUNCATE TABLE artist;
+TRUNCATE TABLE album;
+TRUNCATE TABLE soundtrack;
