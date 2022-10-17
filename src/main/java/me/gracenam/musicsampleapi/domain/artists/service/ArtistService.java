@@ -3,23 +3,20 @@ package me.gracenam.musicsampleapi.domain.artists.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
-import me.gracenam.musicsampleapi.domain.artists.dto.request.ArtistUpdateRequest;
-import me.gracenam.musicsampleapi.domain.artists.dto.response.ArtistSearchParam;
+import lombok.extern.slf4j.Slf4j;
 import me.gracenam.musicsampleapi.domain.artists.dto.request.ArtistRequest;
+import me.gracenam.musicsampleapi.domain.artists.dto.request.ArtistUpdateRequest;
 import me.gracenam.musicsampleapi.domain.artists.dto.response.ArtistResponse;
+import me.gracenam.musicsampleapi.domain.artists.dto.response.ArtistSearchParam;
 import me.gracenam.musicsampleapi.domain.artists.entity.Artist;
 import me.gracenam.musicsampleapi.domain.artists.exception.ArtistNotFoundException;
 import me.gracenam.musicsampleapi.domain.artists.mapper.ArtistMapper;
 import me.gracenam.musicsampleapi.global.commons.PageResponse;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.config.Configuration;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -58,12 +55,13 @@ public class ArtistService {
                 .build();
     }
 
+    @Transactional
     public ArtistResponse saveArtistData(ArtistRequest dto) {
         Artist artist = modelMapper.map(dto, Artist.class);
 
-        artistMapper.save(artist);
+        log.info("artist = {}", artist);
 
-        System.out.println("artist = " + artist.getId());
+        artistMapper.save(artist);
 
         Artist result = artistMapper.findById(artist.getId())
                 .orElseThrow(() -> new ArtistNotFoundException(Long.toString(artist.getId())));

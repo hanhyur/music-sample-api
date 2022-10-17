@@ -23,4 +23,7 @@ public class SoundtrackUpdateRequest {
     private String playTime;
 
     private boolean exposure;
+
+    private Long albumId;
+
 }

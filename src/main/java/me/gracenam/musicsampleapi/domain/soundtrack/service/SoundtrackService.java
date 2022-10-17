@@ -1,6 +1,7 @@
 package me.gracenam.musicsampleapi.domain.soundtrack.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import me.gracenam.musicsampleapi.domain.soundtrack.dto.request.SoundtrackRequest;
 import me.gracenam.musicsampleapi.domain.soundtrack.dto.request.SoundtrackUpdateRequest;
 import me.gracenam.musicsampleapi.domain.soundtrack.dto.response.SoundtrackResponse;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SoundtrackService {
@@ -33,10 +35,14 @@ public class SoundtrackService {
 
         for (SoundtrackRequest request : dto) {
             SoundtrackResponse soundtrackRes = modelMapper.map(request, SoundtrackResponse.class);
-            soundtrackRes.setId(albumId);
+            soundtrackRes.setAlbumId(albumId);
 
             Soundtrack soundtrack = modelMapper.map(soundtrackRes, Soundtrack.class);
+
+            log.info("soundtrack = {}", soundtrack);
+
             soundtracks.add(soundtrack);
+
         }
 
         soundtrackMapper.save(soundtracks);
@@ -59,11 +65,17 @@ public class SoundtrackService {
     }
 
     public List<SoundtrackResponse> findSoundtracksByAlbumId(Long albumId) {
-        return soundtrackMapper.findByAlbumId(albumId);
+        List<SoundtrackResponse> responses = soundtrackMapper.findByAlbumId(albumId);
+
+        log.info("res = {}", responses);
+
+        return responses;
     }
 
     @Transactional
     public List<SoundtrackResponse> updateSoundtrack(Long albumId, List<SoundtrackUpdateRequest> req) {
+        req.forEach(updateRequest -> updateRequest.setAlbumId(albumId));
+
         List<SoundtrackResponse> chkList = findSoundtracksByAlbumId(albumId);
 
         List<SoundtrackResponse> deleteList = chkList.stream()

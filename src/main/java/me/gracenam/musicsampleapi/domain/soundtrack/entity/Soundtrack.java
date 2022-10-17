@@ -3,6 +3,7 @@ package me.gracenam.musicsampleapi.domain.soundtrack.entity;
 import lombok.*;
 
 @Getter
+@Setter
 @Builder
 @ToString
 @NoArgsConstructor

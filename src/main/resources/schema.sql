@@ -24,9 +24,9 @@ CREATE TABLE `album` (
 
 CREATE TABLE `soundtrack` (
                          `id`	        BIGINT	        NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                         `order`        INT             NOT NULL,
+                         `orders`        INT             NOT NULL,
                          `title`        VARCHAR(100)    NULL,
-                         `play_time`        BIGINT          NULL,
-                         `exposue`          boolean         NULL,
+                         `play_time`        VARCHAR(50)          NULL,
+                         `exposure`          boolean         NULL,
                          `album_id`     BIGINT          NULL
 );

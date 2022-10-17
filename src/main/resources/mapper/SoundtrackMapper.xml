@@ -16,7 +16,7 @@
                 #{item.title},
                 #{item.playTime},
                 #{item.exposure},
-                #{item.albumId}
+                #{item.albumId})
             </foreach>
     </insert>
 

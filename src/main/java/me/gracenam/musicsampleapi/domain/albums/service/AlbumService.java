@@ -3,7 +3,9 @@ package me.gracenam.musicsampleapi.domain.albums.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import me.gracenam.musicsampleapi.domain.albums.dto.request.AlbumRequest;
+import me.gracenam.musicsampleapi.domain.albums.dto.request.AlbumUpdateRequest;
 import me.gracenam.musicsampleapi.domain.albums.dto.response.AlbumDetailResponse;
 import me.gracenam.musicsampleapi.domain.albums.dto.response.AlbumResponse;
 import me.gracenam.musicsampleapi.domain.albums.dto.response.AlbumSearchParam;
@@ -15,8 +17,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class AlbumService {
 
     private final AlbumMapper albumMapper;
@@ -57,6 +61,8 @@ public class AlbumService {
     public AlbumResponse saveAlbum(AlbumRequest albumReq) {
         Album album = modelMapper.map(albumReq, Album.class);
 
+        log.info("artist = {}", album);
+
         albumMapper.save(album);
 
         Album result = albumMapper.findById(album.getId())
@@ -76,14 +82,7 @@ public class AlbumService {
     }
 
     @Transactional
-    public void deleteAlbum(Long id) {
-        findAlbumById(id);
-
-        albumMapper.delete(id);
-    }
-
-    @Transactional
-    public AlbumDetailResponse updateAlbumInfo(Long id, AlbumRequest albumReq) {
+    public AlbumDetailResponse updateAlbumInfo(Long id, AlbumUpdateRequest albumReq) {
         albumMapper.update(id, albumReq);
 
         Album album = albumMapper.findById(id)
@@ -101,4 +100,12 @@ public class AlbumService {
 
         return albumDetailResponse;
     }
+
+    @Transactional
+    public void deleteAlbum(Long id) {
+        findAlbumById(id);
+
+        albumMapper.delete(id);
+    }
+
 }

@@ -1,6 +1,7 @@
 package me.gracenam.musicsampleapi.domain.albums.mapper;
 
 import me.gracenam.musicsampleapi.domain.albums.dto.request.AlbumRequest;
+import me.gracenam.musicsampleapi.domain.albums.dto.request.AlbumUpdateRequest;
 import me.gracenam.musicsampleapi.domain.albums.dto.response.AlbumResponse;
 import me.gracenam.musicsampleapi.domain.albums.entity.Album;
 import me.gracenam.musicsampleapi.global.commons.SearchParam;
@@ -19,7 +20,7 @@ public interface AlbumMapper {
 
     Long save(Album album);
 
-    void update(@Param("id") Long id, @Param("dto") AlbumRequest dto);
+    void update(@Param("id") Long id, @Param("dto") AlbumUpdateRequest dto);
 
     void delete(Long id);
 

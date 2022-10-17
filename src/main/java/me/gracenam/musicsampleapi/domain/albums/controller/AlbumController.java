@@ -2,6 +2,7 @@ package me.gracenam.musicsampleapi.domain.albums.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.gracenam.musicsampleapi.domain.albums.dto.request.AlbumRequest;
+import me.gracenam.musicsampleapi.domain.albums.dto.request.AlbumUpdateRequest;
 import me.gracenam.musicsampleapi.domain.albums.dto.response.AlbumResponse;
 import me.gracenam.musicsampleapi.domain.albums.dto.response.AlbumSearchParam;
 import me.gracenam.musicsampleapi.domain.albums.exception.AlbumValidationException;
@@ -41,25 +42,23 @@ public class AlbumController {
 
     @PostMapping
     public ResponseEntity saveAlbum(@RequestBody @Valid AlbumRequest albumReq,
-                                    @RequestBody(required = false) @Valid List<SoundtrackRequest> soundtrackReq,
                                     BindingResult result) {
         if (result.hasErrors()) {
             throw new AlbumValidationException(result);
         }
 
-        return ResponseEntity.ok(albumSoundtrackAdapter.saveInfo(albumReq, soundtrackReq));
+        return ResponseEntity.ok(albumSoundtrackAdapter.saveInfo(albumReq));
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity updateAlbum(@PathVariable Long id,
-                                      @RequestBody @Valid AlbumRequest albumReq,
-                                      @RequestBody @Valid List<SoundtrackUpdateRequest> soundtrackReq,
+                                      @RequestBody @Valid AlbumUpdateRequest albumReq,
                                       BindingResult result) {
         if (result.hasErrors()) {
             throw new AlbumValidationException(result);
         }
 
-        return ResponseEntity.ok(albumSoundtrackAdapter.updateAlbumInfo(id, albumReq, soundtrackReq));
+        return ResponseEntity.ok(albumSoundtrackAdapter.updateAlbumInfo(id, albumReq));
     }
 
     @DeleteMapping("/{id}")

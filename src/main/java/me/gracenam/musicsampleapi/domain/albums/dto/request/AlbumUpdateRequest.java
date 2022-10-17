@@ -3,6 +3,7 @@ package me.gracenam.musicsampleapi.domain.albums.dto.request;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import me.gracenam.musicsampleapi.domain.soundtrack.dto.request.SoundtrackRequest;
+import me.gracenam.musicsampleapi.domain.soundtrack.dto.request.SoundtrackUpdateRequest;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -15,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class AlbumRequest {
+public class AlbumUpdateRequest {
 
     @NotBlank(message = "아티스트를 선택해주세요")
     private String artistName;
@@ -31,6 +32,6 @@ public class AlbumRequest {
 
     private String description;
 
-    private List<SoundtrackRequest> soundtrackRequests;
+    private List<SoundtrackUpdateRequest> stUpdateRequests;
 
 }
