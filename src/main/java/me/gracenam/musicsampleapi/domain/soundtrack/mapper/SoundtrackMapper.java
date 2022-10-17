@@ -18,7 +18,7 @@ public interface SoundtrackMapper {
 
     List<SoundtrackResponse> findByAlbumId(Long id);
 
-    int save(List<Soundtrack> soundtracks);
+    Long save(List<Soundtrack> soundtracks);
 
     void update(List<SoundtrackUpdateRequest> requests);
 

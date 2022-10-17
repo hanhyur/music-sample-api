@@ -3,6 +3,7 @@ package me.gracenam.musicsampleapi.domain.artists.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
+import me.gracenam.musicsampleapi.domain.artists.dto.request.ArtistUpdateRequest;
 import me.gracenam.musicsampleapi.domain.artists.dto.response.ArtistSearchParam;
 import me.gracenam.musicsampleapi.domain.artists.dto.request.ArtistRequest;
 import me.gracenam.musicsampleapi.domain.artists.dto.response.ArtistResponse;
@@ -57,14 +58,15 @@ public class ArtistService {
                 .build();
     }
 
-    @Transactional
     public ArtistResponse saveArtistData(ArtistRequest dto) {
         Artist artist = modelMapper.map(dto, Artist.class);
 
-        Long id = artistMapper.save(artist);
+        artistMapper.save(artist);
 
-        Artist result = artistMapper.findById(id)
-                .orElseThrow(() -> new ArtistNotFoundException(Long.toString(id)));
+        System.out.println("artist = " + artist.getId());
+
+        Artist result = artistMapper.findById(artist.getId())
+                .orElseThrow(() -> new ArtistNotFoundException(Long.toString(artist.getId())));
 
         ArtistResponse artistResponse = ArtistResponse.builder()
                 .id(result.getId())
@@ -80,7 +82,7 @@ public class ArtistService {
     }
 
     @Transactional
-    public ArtistResponse updateArtistInfo(Long id, ArtistRequest dto) {
+    public ArtistResponse updateArtistInfo(Long id, ArtistUpdateRequest dto) {
         artistMapper.update(id, dto);
 
         Artist result = artistMapper.findById(id)

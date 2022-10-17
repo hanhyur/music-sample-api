@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="me.gracenam.musicsampleapi.domain.artists.mapper.AlbumMapper">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.gracenam.musicsampleapi.domain.albums.mapper.AlbumMapper">
 
     <select id="findAll" resultType="AlbumResponse">
         select * from album
@@ -19,39 +20,34 @@
     <insert id="save" useGeneratedKeys="true" keyProperty="id">
         insert
         into album
-        (artist_name,
-         title,
-         release_date,
-         genre,
-         description,
-         introduction,
-         registered_date)
+            (artist_name,
+             title,
+             release_date,
+             genre,
+             description,
+             registered_date)
         values
             (#{artistName},
-             #{birth},
-             #{agency},
-             #{nationality},
-             #{introduction},
+             #{title},
+             #{releaseDate},
+             #{genre},
+             #{description},
              now())
     </insert>
 
-    <select id="search" resultType="Artist">
-        select * from artist where name like concat('%', #{name}, '%')
-    </select>
-
     <update id="update">
-        update artist
+        update album
         set
-            name = #{dto.name},
-            birth = #{dto.birth},
-            agency = #{dto.agency},
-            nationality = #{dto.nationality},
-            introduction = #{dto.introduction}
+            artist_name = #{dto.artistName},
+            title = #{dto.title},
+            release_date = #{dto.releaseDate},
+            genre = #{dto.genre},
+            description = #{dto.description}
         where id = #{id}
     </update>
 
     <delete id="delete">
-        delete from artist
+        delete from album
         where id = #{id}
     </delete>
 

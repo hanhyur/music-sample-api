@@ -15,7 +15,7 @@ public class Soundtrack {
 
     private String title;
 
-    private Long playTime;
+    private String playTime;
 
     private boolean exposure;
 

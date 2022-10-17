@@ -14,7 +14,7 @@ CREATE TABLE `artist` (
 
 CREATE TABLE `album` (
                          `id`	        BIGINT	        NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                         `name`	    VARCHAR(50)     NULL,
+                         `artist_name`	    VARCHAR(50)     NULL,
                          `title`	    VARCHAR(100)	NULL,
                          `release_date`	    DATE	        NULL,
                          `genre`	        VARCHAR(100)	NULL,

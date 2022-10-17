@@ -1,11 +1,18 @@
 package me.gracenam.musicsampleapi.domain.albums.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class AlbumRequest {
 
     @NotBlank(message = "아티스트를 선택해주세요")

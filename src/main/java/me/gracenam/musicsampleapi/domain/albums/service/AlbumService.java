@@ -57,10 +57,10 @@ public class AlbumService {
     public AlbumResponse saveAlbum(AlbumRequest albumReq) {
         Album album = modelMapper.map(albumReq, Album.class);
 
-        Long id = albumMapper.save(album);
+        albumMapper.save(album);
 
-        Album result = albumMapper.findById(id)
-                .orElseThrow(() -> new AlbumNotFoundException(Long.toString(id)));
+        Album result = albumMapper.findById(album.getId())
+                .orElseThrow(() -> new AlbumNotFoundException(Long.toString(album.getId())));
 
         AlbumResponse albumResponse = AlbumResponse.builder()
                 .id(result.getId())

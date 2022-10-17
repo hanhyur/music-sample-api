@@ -1,6 +1,6 @@
 package me.gracenam.musicsampleapi.domain.artists.mapper;
 
-import me.gracenam.musicsampleapi.domain.artists.dto.request.ArtistRequest;
+import me.gracenam.musicsampleapi.domain.artists.dto.request.ArtistUpdateRequest;
 import me.gracenam.musicsampleapi.domain.artists.dto.response.ArtistResponse;
 import me.gracenam.musicsampleapi.domain.artists.entity.Artist;
 import me.gracenam.musicsampleapi.global.commons.SearchParam;
@@ -19,7 +19,8 @@ public interface ArtistMapper {
 
     Long save(Artist artist);
 
-    int update(@Param("id") Long id, @Param("dto") ArtistRequest dto);
+    void update(@Param("id") Long id, @Param("dto") ArtistUpdateRequest dto);
 
     void delete(Long id);
+
 }

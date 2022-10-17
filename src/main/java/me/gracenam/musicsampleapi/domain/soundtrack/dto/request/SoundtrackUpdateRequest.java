@@ -20,7 +20,7 @@ public class SoundtrackUpdateRequest {
     private String title;
 
     @NotBlank(message = "재생시간을 입력해주세요")
-    private Long playTime;
+    private String playTime;
 
     private boolean exposure;
 }

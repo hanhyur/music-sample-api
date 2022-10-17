@@ -2,6 +2,7 @@ package me.gracenam.musicsampleapi.domain.artists.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.gracenam.musicsampleapi.domain.artists.dto.request.ArtistRequest;
+import me.gracenam.musicsampleapi.domain.artists.dto.request.ArtistUpdateRequest;
 import me.gracenam.musicsampleapi.domain.artists.dto.response.ArtistResponse;
 import me.gracenam.musicsampleapi.domain.artists.dto.response.ArtistSearchParam;
 import me.gracenam.musicsampleapi.domain.artists.exception.ArtistValidationException;
@@ -45,7 +46,7 @@ public class ArtistController {
 
     @PatchMapping("/{id}")
     public ResponseEntity updateArtistInfo(@PathVariable Long id,
-                                           @RequestBody @Valid ArtistRequest dto,
+                                           @RequestBody @Valid ArtistUpdateRequest dto,
                                            BindingResult result) {
         if (result.hasErrors()) {
             throw new ArtistValidationException(result);

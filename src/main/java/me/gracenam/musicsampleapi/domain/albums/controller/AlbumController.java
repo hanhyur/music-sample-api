@@ -41,7 +41,7 @@ public class AlbumController {
 
     @PostMapping
     public ResponseEntity saveAlbum(@RequestBody @Valid AlbumRequest albumReq,
-                                    @RequestBody @Valid List<SoundtrackRequest> soundtrackReq,
+                                    @RequestBody(required = false) @Valid List<SoundtrackRequest> soundtrackReq,
                                     BindingResult result) {
         if (result.hasErrors()) {
             throw new AlbumValidationException(result);
